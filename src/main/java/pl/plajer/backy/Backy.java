@@ -19,8 +19,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.commons.io.FileUtils;
-
 import pl.plajer.backy.gdrive.GoogleDriveUtils;
 import pl.plajer.backy.stages.CleanupTask;
 import pl.plajer.backy.stages.FileZipperTask;
@@ -65,9 +63,9 @@ public class Backy {
   private void setupConfig() throws IOException {
     java.io.File file = new java.io.File("config.json");
     if (!file.exists()) {
-      try(InputStream in = getClass().getResourceAsStream("/config.json");
-          BufferedReader br = new BufferedReader(new InputStreamReader(in));
-          FileWriter wr = new FileWriter(file)) {
+      try (InputStream in = getClass().getResourceAsStream("/config.json");
+           BufferedReader br = new BufferedReader(new InputStreamReader(in));
+           FileWriter wr = new FileWriter(file)) {
         String line;
         while ((line = br.readLine()) != null) {
           wr.write(line);
@@ -137,7 +135,7 @@ public class Backy {
     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
     Date today = new Date();
     java.io.File file = new java.io.File("Backy-" + formatter.format(today) + ".zip");
-    if(!file.exists()) {
+    if (!file.exists()) {
       return;
     }
     file.delete();

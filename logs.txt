@@ -1,0 +1,11 @@
+
+[11/06/2019 19:26:36] 
+[11/06/2019 19:26:36]  * NEW INSTANCE STARTED * 
+[11/06/2019 19:26:36] 
+[11/06/2019 19:26:36] Backy instance started!
+[11/06/2019 19:26:36] STAGE 1 | Attempting to load scripts...
+[11/06/2019 19:26:36] STAGE 2 | Zip task
+[11/06/2019 19:26:36] Zipped backup folder contents into Backy-11-06-2019.zip
+[11/06/2019 19:26:36] STAGE 3 | Upload backup to GDrive
+[11/06/2019 19:26:36] Stage 3 failed to execute...
+[11/06/2019 19:26:36] STAGE 4 | Backups folder cleanup

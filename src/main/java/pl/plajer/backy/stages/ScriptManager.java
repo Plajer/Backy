@@ -29,10 +29,10 @@ public class ScriptManager {
 
   private void loadScripts() {
     BackyLogger.log("STAGE 1 | Attempting to load scripts...");
-    try(Stream<Path> paths = Files.walk(Paths.get("scripts"))) {
+    try (Stream<Path> paths = Files.walk(Paths.get("scripts"))) {
       List<File> files = paths.filter(Files::isRegularFile).map(Path::toFile).collect(Collectors.toList());
       for (File file : files) {
-        if(!FilenameUtils.getExtension(file.getName()).equalsIgnoreCase("sh")){
+        if (!FilenameUtils.getExtension(file.getName()).equalsIgnoreCase("sh")) {
           BackyLogger.log("Skipping invalid script {0} from loading!", file.getName());
           continue;
         }
