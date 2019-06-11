@@ -52,7 +52,8 @@ public class Backy {
       return;
     }
     if (!prepareBackupZipSecondStage()) {
-      BackyLogger.log("Stage 2 failed to execute, cancelling...");
+      BackyLogger.log("Stage 2 failed to execute, skipping prematurely to clean task...");
+      prepareCleanupFourthStage();
       return;
     }
     if (!prepareGDriveUploadThirdStage()) {
@@ -136,6 +137,9 @@ public class Backy {
     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
     Date today = new Date();
     java.io.File file = new java.io.File("Backy-" + formatter.format(today) + ".zip");
+    if(!file.exists()) {
+      return;
+    }
     file.delete();
   }
 

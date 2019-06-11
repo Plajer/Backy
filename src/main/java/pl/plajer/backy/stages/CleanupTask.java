@@ -19,7 +19,7 @@ public class CleanupTask {
   }
 
   private void cleanupBackupsFolder() {
-    BackyLogger.log("STAGE 3 | Backups folder cleanup");
+    BackyLogger.log("STAGE 4 | Backups folder cleanup");
     try {
       FileUtils.deleteDirectory(new File("backups"));
       new File("backups").mkdir();
