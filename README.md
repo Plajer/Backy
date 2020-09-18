@@ -24,6 +24,10 @@ is exceeded it will remove older backups in order to save drive size not to run 
 At this final stage Backy removes all contents of `backups` folder and removes backup zip file.
 Everything is cleared like before the work!
 
+### Stage 5 - Discord webhook notification
+This stage will just use Discord webhook url to push a notification about successful backup, nothing else.
+Set webhook url in `config.json`
+
 ## The Setup
 Backy main configuration is in `config.json` folder generated on first run.
 There is also `logs.txt` file generated for logging runtime of Backy's work.

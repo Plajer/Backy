@@ -1,4 +1,5 @@
 {
   "backups-folder-id": "folder_id",
-  "max-backup-files": 5
+  "max-backup-files": 5,
+  "discord-webhook-url": "webhook_url"
 }

@@ -21,6 +21,7 @@ import java.util.Locale;
 
 import pl.plajer.backy.gdrive.GoogleDriveUtils;
 import pl.plajer.backy.stages.CleanupTask;
+import pl.plajer.backy.stages.DiscordNotifyTask;
 import pl.plajer.backy.stages.FileZipperTask;
 import pl.plajer.backy.stages.ScriptManager;
 
@@ -58,6 +59,7 @@ public class Backy {
       BackyLogger.log("Stage 3 failed to execute...");
     }
     prepareCleanupFourthStage();
+    new DiscordNotifyTask(config);
   }
 
   private void setupConfig() throws IOException {
