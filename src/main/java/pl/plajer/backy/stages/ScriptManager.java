@@ -6,7 +6,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -21,7 +23,7 @@ import pl.plajer.backy.BackyLogger;
  */
 public class ScriptManager {
 
-  private List<ProcessBuilder> scriptsToExecute = new ArrayList<>();
+  private Map<ProcessBuilder, String> scriptsToExecute = new HashMap<>();
 
   public ScriptManager() {
     loadScripts();
@@ -37,7 +39,7 @@ public class ScriptManager {
           continue;
         }
         ProcessBuilder builder = new ProcessBuilder(file.getPath());
-        scriptsToExecute.add(builder);
+        scriptsToExecute.put(builder, file.getName());
         BackyLogger.log("Loaded script {0}", file.getName());
       }
     } catch (IOException ex) {
@@ -45,20 +47,25 @@ public class ScriptManager {
     }
   }
 
-  public boolean processScripts() {
+  public Map<String, Long> processScripts() {
+    Map<String, Long> processTime = new HashMap<>();
     try {
       int total = scriptsToExecute.size();
       int i = 1;
-      for (ProcessBuilder builder : scriptsToExecute) {
+      for (Map.Entry<ProcessBuilder, String> entry : scriptsToExecute.entrySet()) {
+        long start = System.currentTimeMillis();
+        ProcessBuilder builder = entry.getKey();
         Process process = builder.start();
         process.waitFor();
         BackyLogger.log("Processed {0} out of {1} scripts!", i, total);
+        long end = System.currentTimeMillis();
+        processTime.put(entry.getValue(), end - start);
         i++;
       }
-      return true;
+      return processTime;
     } catch (IOException | InterruptedException ex) {
       ex.printStackTrace();
-      return false;
+      return processTime;
     }
   }
 

@@ -13,11 +13,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import pl.plajer.backy.gdrive.GoogleDriveUtils;
 import pl.plajer.backy.stages.CleanupTask;
@@ -35,6 +38,7 @@ public class Backy {
   private JsonObject config;
   private File fileMetadata;
   private FileContent mediaContent;
+  private Map<String, Long> processTime = new HashMap<>();
 
   public void start() {
     BackyLogger.log("Backy instance started!");
@@ -46,6 +50,7 @@ public class Backy {
       return;
     }
 
+    Instant start = Instant.now();
     if (!prepareScriptsFirstStage()) {
       BackyLogger.log("Stage 1 failed to execute, cancelling...");
       return;
@@ -59,7 +64,7 @@ public class Backy {
       BackyLogger.log("Stage 3 failed to execute...");
     }
     prepareCleanupFourthStage();
-    new DiscordNotifyTask(config);
+    new DiscordNotifyTask(config, start, processTime);
   }
 
   private void setupConfig() throws IOException {
@@ -79,8 +84,9 @@ public class Backy {
 
   private boolean prepareScriptsFirstStage() {
     ScriptManager scriptManager = new ScriptManager();
-    if (!scriptManager.processScripts()) {
-      BackyLogger.log("Failed to process scripts so we can't continue backup operation!");
+    processTime = scriptManager.processScripts();
+    if(processTime.isEmpty()) {
+      BackyLogger.log("Failed to process scripts so we can't continue backup operation! (No scripts were processed)");
       return false;
     }
     return true;
